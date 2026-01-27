@@ -2,20 +2,103 @@
   "name": "@org/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "web": "nx run web:dev",
+    "api": "nx run api:serve",
+    "all": "nx run web:dev & nx run api:serve",
+    "prisma:generate": "prisma generate --schema=apps/api/prisma/schema.prisma"
+  },
   "private": true,
-  "dependencies": {},
   "devDependencies": {
-    "@nx/js": "22.4.0",
+    "@babel/core": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "@eslint/js": "^9.8.0",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.0",
+    "@next/eslint-plugin-next": "^16.0.1",
+    "@nx/eslint": "22.4.0",
+    "@nx/eslint-plugin": "22.4.0",
+    "@nx/jest": "22.4.0",
+    "@nx/js": "22.4.2",
+    "@nx/nest": "^22.4.0",
+    "@nx/next": "^22.4.0",
+    "@nx/node": "22.4.0",
+    "@nx/react": "22.4.2",
+    "@nx/rollup": "22.4.2",
+    "@nx/web": "22.4.0",
+    "@nx/webpack": "22.4.0",
+    "@prisma/client": "^7.3.0",
+    "@rollup/plugin-url": "^8.0.2",
+    "@svgr/rollup": "^8.1.0",
     "@swc-node/register": "~1.9.1",
+    "@swc/cli": "~0.6.0",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@testing-library/dom": "10.4.0",
+    "@testing-library/react": "16.3.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "20.19.9",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "babel-jest": "^30.0.2",
+    "core-js": "^3.36.1",
+    "eslint": "^9.8.0",
+    "eslint-config-next": "^16.0.1",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-jsx-a11y": "6.10.1",
+    "eslint-plugin-react": "7.35.0",
+    "eslint-plugin-react-hooks": "5.0.0",
+    "jest": "^30.0.2",
+    "jest-environment-jsdom": "^30.0.2",
+    "jest-util": "^30.0.2",
+    "jsonc-eslint-parser": "^2.1.0",
     "nx": "22.4.0",
     "prettier": "^2.6.2",
+    "prisma": "^7.3.0",
+    "rollup": "^4.14.0",
+    "ts-jest": "^29.4.0",
+    "ts-node": "10.9.1",
     "tslib": "^2.3.0",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "typescript-eslint": "^8.40.0",
+    "verdaccio": "^6.0.5",
+    "webpack-cli": "^5.1.4"
   },
   "workspaces": [
-    "packages/*"
-  ]
+    "packages/*",
+    "apps/*",
+    "shared-dto",
+    "libs/dto/*",
+    "libs/*",
+    "org"
+  ],
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.7",
+    "@mui/material-nextjs": "^7.3.7",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "axios": "^1.6.0",
+    "next": "~16.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.0"
+  },
+  "nx": {
+    "includedScripts": [],
+    "targets": {
+      "local-registry": {
+        "executor": "@nx/js:verdaccio",
+        "options": {
+          "port": 4873,
+          "config": ".verdaccio/config.yml",
+          "storage": "tmp/local-registry/storage"
+        }
+      }
+    }
+  }
 }
