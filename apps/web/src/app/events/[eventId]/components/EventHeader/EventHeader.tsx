@@ -1,6 +1,6 @@
 import { Stack, Typography, alpha } from '@mui/material';
 import { CategoryOutlined } from '@mui/icons-material';
-import { Event } from '@/types/events';
+import { Event } from '@org/models';
 
 type Props = {
   event: Event;

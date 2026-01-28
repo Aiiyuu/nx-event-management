@@ -1,21 +1,17 @@
 'use client';
 
-import { Box, IconButton, Stack, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+  SelectChangeEvent,
+} from '@mui/material';
 import { SelectField } from '@org/ui-components';
-import { useEventsStore } from '@/store/events';
-import { EventCategory } from '@org/models';
+import { EventCategory, CATEGORY_OPTIONS, EventSort } from '@org/models';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from 'react';
-import { useDebounce } from '@/hooks/useDebounce';
-import { EventSort } from '@/types/events';
-
-export const CATEGORY_OPTIONS = [
-  { label: 'Conference', value: EventCategory.CONFERENCE },
-  { label: 'Meetup', value: EventCategory.MEETUP },
-  { label: 'Workshop', value: EventCategory.WORKSHOP },
-  { label: 'Webinar', value: EventCategory.WEBINAR },
-  { label: 'Social', value: EventCategory.SOCIAL },
-];
+import { ChangeEvent } from 'react';
 
 export const SORT_OPTIONS = [
   { label: 'Newest first', value: EventSort.DATE_DESC },
@@ -24,15 +20,41 @@ export const SORT_OPTIONS = [
   { label: 'Title (Z–A)', value: EventSort.TITLE_DESC },
 ];
 
-export const EventsHeader = () => {
-  const { categories, sort, total, setCategories, setSort, search } = useEventsStore();
-  const [query, setQuery] = useState('');
+interface Props {
+  total?: number;
+  categories: EventCategory[];
+  query: string;
+  sort: EventSort;
+  onCategoriesChange: (val: EventCategory[]) => void;
+  onQueryChange: (val: string) => void;
+  onSortChange: (val: EventSort) => void;
+}
 
-  const debouncedQuery = useDebounce(query, 400);
+export const EventsHeader = ({
+  total,
+  categories,
+  query,
+  sort,
+  onCategoriesChange,
+  onQueryChange,
+  onSortChange,
+}: Props) => {
+  const handleCategoryChange = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value;
+    const normalizedValue = Array.isArray(value)
+      ? (value as EventCategory[])
+      : [value as EventCategory];
 
-  useEffect(() => {
-    search(debouncedQuery);
-  }, [debouncedQuery, categories, search]);
+    onCategoriesChange(normalizedValue);
+  };
+
+  const handleSortChange = (event: SelectChangeEvent<unknown>) => {
+    onSortChange(event.target.value as EventSort);
+  };
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onQueryChange(event.target.value);
+  };
 
   return (
     <Box mb={4}>
@@ -47,12 +69,7 @@ export const EventsHeader = () => {
           multiple
           value={categories}
           options={CATEGORY_OPTIONS}
-          onChange={(event) => {
-            const value = event.target.value;
-            setCategories(
-              typeof value === 'string' ? [value as EventCategory] : (value as EventCategory[])
-            );
-          }}
+          onChange={handleCategoryChange}
         />
 
         <SelectField
@@ -60,7 +77,7 @@ export const EventsHeader = () => {
           name="sort"
           value={sort}
           options={SORT_OPTIONS}
-          onChange={(event) => setSort(event.target.value as EventSort)}
+          onChange={handleSortChange}
         />
 
         <TextField
@@ -68,10 +85,10 @@ export const EventsHeader = () => {
           label="Search"
           variant="outlined"
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearchChange}
           InputProps={{
             endAdornment: (
-              <IconButton>
+              <IconButton aria-label="search button">
                 <SearchIcon />
               </IconButton>
             ),
@@ -80,7 +97,7 @@ export const EventsHeader = () => {
       </Stack>
 
       <Typography variant="body2" color="text.secondary" mt={2}>
-        Total events: {total}
+        Total events: {total ?? 0}
       </Typography>
     </Box>
   );

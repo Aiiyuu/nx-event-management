@@ -1,34 +1,18 @@
 'use client';
 
 import React from 'react';
-import { Stack, Grid, Button, Typography, Box } from '@mui/material';
+import { Stack, Grid, Button, Box } from '@mui/material';
 import { FormField, FormTextArea, SelectField } from '@org/ui-components';
-import { CATEGORY_OPTIONS } from '@/types/events';
+import { CATEGORY_OPTIONS } from '@org/models';
 import { CreateEventDto } from '@org/models';
+import { ErrorMessage } from '../ErrorMessage';
 
-interface ErrorMessageProps {
-  field: string;
-  fieldErrors: Record<string, string> | null;
-}
-
-const ErrorMessage = ({ field, fieldErrors }: ErrorMessageProps) => {
-  if (!fieldErrors || !fieldErrors[field]) return null;
-  return (
-    <Typography
-      variant="caption"
-      color="error"
-      sx={{ mt: 0.5, ml: 1, fontWeight: 'bold', display: 'block' }}
-    >
-      {fieldErrors[field]}
-    </Typography>
-  );
-};
 
 interface Props {
   formState: Partial<CreateEventDto>;
-  setFormState: React.Dispatch<React.SetStateAction<Partial<CreateEventDto>>>;
   fieldErrors: Record<string, string> | null;
   isLoading: boolean;
+  setFormState: React.Dispatch<React.SetStateAction<Partial<CreateEventDto>>>;
   onSubmit: (e: React.FormEvent) => Promise<void>;
 }
 

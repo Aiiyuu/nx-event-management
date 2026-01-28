@@ -1,7 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, use } from "react";
-import { useRouter } from "next/navigation";
+import { use } from 'react';
 import {
   Box,
   Typography,
@@ -9,14 +8,15 @@ import {
   Divider,
   Container,
   Stack,
-} from "@mui/material";
-import { useEventsStore } from "@/store/events";
-import { RecommendationsSlider } from "./components/RecommendationsSlider";
-import { EventDetailContent } from "./components/EventDetailContent";
-import { Event, EventDetailResponse } from "@/types/events";
-import dynamic from "next/dynamic";
+  Alert,
+} from '@mui/material';
+import { RecommendationsSlider } from './components/RecommendationsSlider';
+import { EventDetailContent } from './components/EventDetailContent';
+import { useEvent, useUpdateEvent, useDeleteEvent } from '@/services/events';
+import { CreateEventDto } from '@org/models';
+import dynamic from 'next/dynamic';
 
-const EventMap = dynamic(() => import("./components/EventMap"), { ssr: false });
+const EventMap = dynamic(() => import('./components/EventMap'), { ssr: false });
 
 export default function EventDetailPage({
   params,
@@ -24,21 +24,24 @@ export default function EventDetailPage({
   params: Promise<{ eventId: string }>;
 }) {
   const { eventId } = use(params);
-  const router = useRouter();
+
   const {
-    fetchById,
-    currentEvent,
-    deleteEvent,
-    updateEvent,
-    fieldErrors,
+    data: eventResponse,
     isLoading,
-  } = useEventsStore();
+    error: fetchError,
+  } = useEvent(eventId);
 
-  useEffect(() => {
-    if (eventId) fetchById(eventId);
-  }, [eventId, fetchById]);
+  const updateMutation = useUpdateEvent();
+  const deleteMutation = useDeleteEvent();
 
-  if (isLoading || !currentEvent) {
+  const handleUpdate = (data: Partial<CreateEventDto>) => {
+    updateMutation.mutate({ id: eventId, data });
+  };
+
+  const handleDelete = () => {
+    deleteMutation.mutate(eventId);
+  };
+  if (isLoading) {
     return (
       <Box
         display="flex"
@@ -51,27 +54,28 @@ export default function EventDetailPage({
     );
   }
 
-  const response = currentEvent as unknown as EventDetailResponse;
-  const eventData = response.event || (currentEvent as Event);
-  const recommendations = response.recommendations || [];
+  if (fetchError || !eventResponse) {
+    return (
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Alert severity="error">Event not found</Alert>
+      </Container>
+    );
+  }
 
-  const handleDelete = async () => {
-    await deleteEvent(eventId);
-    router.push("/events");
-  };
+  const { event, recommendations } = eventResponse;
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Stack spacing={6}>
         <EventDetailContent
-          key={eventData.id}
-          event={eventData}
-          fieldErrors={fieldErrors}
-          onUpdate={updateEvent}
+          key={event.id}
+          event={event}
+          fieldErrors={updateMutation.error?.errors || null}
+          onUpdate={handleUpdate}
           onDelete={handleDelete}
         />
 
-        <EventMap location={eventData.location} />
+        <EventMap location={event.location} />
 
         <Divider />
 

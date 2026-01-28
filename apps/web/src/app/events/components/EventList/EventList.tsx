@@ -1,25 +1,22 @@
 'use client';
 
-import { useEventsStore } from '@/store/events';
-import { Grid, CircularProgress, Box, Typography, Alert } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import { EventCard } from '../EventCard';
-import { sortEvents } from '@/utils/events';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Event } from '@org/models';
 
-export const EventList = () => {
-  const { events, isLoading, error, sort } = useEventsStore();
-  const sortedEvents = sortEvents(events, sort);
+type Props = {
+  events: Event[];
+  isLoading?: boolean;
+};
 
+export const EventList = ({ events, isLoading }: Props) => {
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" py={8}>
-        <CircularProgress />
+        <Typography>Loading events...</Typography>
       </Box>
     );
-  }
-
-  if (error) {
-    return <Alert severity="error">{error}</Alert>;
   }
 
   if (events.length === 0) {
@@ -33,21 +30,21 @@ export const EventList = () => {
   return (
     <Grid container spacing={3}>
       <AnimatePresence mode="popLayout">
-        {sortedEvents.map((event, index) => (
+        {events.map((event, index) => (
           <Grid
-            size={{ xs: 12, sm: 6, md: 4 }}
             key={event.id}
+            size={{ xs: 12, sm: 6, md: 4 }}
             component={motion.div}
             layout
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
             transition={{
-              duration: 0.4,
-              delay: index * 0.05,
               type: 'spring',
-              stiffness: 260,
-              damping: 20,
+              stiffness: 400,
+              damping: 30,
+              opacity: { delay: index * 0.03 },
+              y: { delay: index * 0.03 },
             }}
           >
             <EventCard event={event} />

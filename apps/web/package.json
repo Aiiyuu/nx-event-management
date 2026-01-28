@@ -15,8 +15,7 @@
     "next": "^16.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-leaflet": "^5.0.0",
-    "zustand": "^5.0.10"
+    "react-leaflet": "^5.0.0"
   },
   "nx": {
     "name": "@org/web",

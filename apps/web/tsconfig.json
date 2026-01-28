@@ -49,6 +49,9 @@
   ],
   "references": [
     {
+      "path": "../../libs/api-client"
+    },
+    {
       "path": "../../libs/ui-components"
     },
     {

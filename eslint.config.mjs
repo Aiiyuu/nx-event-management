@@ -22,7 +22,15 @@ export default [
             },
             {
               sourceTag: 'scope:@org/web',
-              onlyDependOnLibsWithTags: ['scope:models', 'scope:ui-components'],
+              onlyDependOnLibsWithTags: [
+                'scope:models',
+                'scope:ui-components',
+                'scope:api-client',
+              ],
+            },
+            {
+              sourceTag: 'scope:api-client',
+              onlyDependOnLibsWithTags: ['scope:api-client', 'scope:models'],
             },
             {
               sourceTag: 'scope:ui-components',

@@ -11,9 +11,6 @@
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
     "baseUrl": ".",
-    "paths": {
-      "@org/models": ["src/index.ts"]
-    }
   },
   "files": [],
   "include": [],

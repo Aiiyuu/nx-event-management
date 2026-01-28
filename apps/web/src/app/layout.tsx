@@ -1,7 +1,8 @@
 import { Navbar } from '@org/ui-components';
-import ThemeRegistry from '@/theme/ThemeRegistry';
 import { Container } from '@mui/material';
 import type { Metadata } from 'next';
+import ThemeRegistry from '@/theme/ThemeRegistry';
+import QueryProvider from '@/providers/QueryProvider';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -10,19 +11,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body>
-        <ThemeRegistry>
-          <Navbar />
+        <QueryProvider>
+          <ThemeRegistry>
+            <Navbar />
 
-          <Container maxWidth="lg" sx={{ py: 4 }}>
-            {children}
-          </Container>
-        </ThemeRegistry>
+            <Container maxWidth="lg" sx={{ py: 4 }}>
+              {children}
+            </Container>
+          </ThemeRegistry>
+        </QueryProvider>
       </body>
     </html>
   );

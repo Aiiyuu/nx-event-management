@@ -1,0 +1,1 @@
+{"version":3,"file":"create-event-dto.d.ts","sourceRoot":"","sources":["create-event-dto.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,WAAW,CAAC;AAE1C,MAAM,WAAW,cAAc;IAC7B,KAAK,EAAE,MAAM,CAAC;IACd,WAAW,EAAE,MAAM,CAAC;IACpB,QAAQ,EAAE,aAAa,CAAC;IACxB,SAAS,EAAE,MAAM,CAAC;IAClB,QAAQ,EAAE,MAAM,CAAC;CAClB"}

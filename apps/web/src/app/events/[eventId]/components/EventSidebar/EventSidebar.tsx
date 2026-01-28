@@ -3,7 +3,7 @@
 import React from 'react';
 import { Paper, Stack, Box, Typography, Divider, Button, alpha } from '@mui/material';
 import { CalendarMonth, LocationOn, EditNote, DeleteOutline } from '@mui/icons-material';
-import { Event } from '@/types/events';
+import { Event } from '@org/models';
 
 interface Props {
   event: Event;

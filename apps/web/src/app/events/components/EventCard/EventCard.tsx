@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography, Chip, Box, Stack } from '@mui/material';
-import { Event } from '@/types/events';
+import { Event } from '@org/models';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Link from 'next/link';

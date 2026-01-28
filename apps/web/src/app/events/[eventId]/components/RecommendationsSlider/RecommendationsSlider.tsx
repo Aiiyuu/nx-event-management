@@ -2,7 +2,7 @@
 
 import { Box, Card, CardContent, Typography, Chip } from '@mui/material';
 import Link from 'next/link';
-import { Event } from '@/types/events';
+import { Event } from '@org/models';
 
 export function RecommendationsSlider({ recommendations }: { recommendations: Event[] }) {
   return (

@@ -11,7 +11,7 @@ import {
   alpha,
 } from '@mui/material';
 import { FormField, FormTextArea, SelectField } from '@org/ui-components';
-import { CATEGORY_OPTIONS } from '@/types/events';
+import { CATEGORY_OPTIONS } from '@org/models';
 import { CreateEventDto } from '@org/models';
 
 interface Props {

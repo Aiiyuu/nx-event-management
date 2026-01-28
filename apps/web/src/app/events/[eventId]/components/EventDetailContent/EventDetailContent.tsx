@@ -14,7 +14,7 @@ import {
   Button,
   alpha,
 } from '@mui/material';
-import { Event } from '@/types/events';
+import { Event } from '@org/models';
 import { EventHeader } from '../EventHeader';
 import { CreateEventDto } from '@org/models';
 import { EventSidebar } from '../EventSidebar';
@@ -23,8 +23,8 @@ import { EventEditForm } from '../EventEditForm';
 interface Props {
   event: Event;
   fieldErrors: Record<string, string> | null;
-  onUpdate: (id: string, data: Partial<CreateEventDto>) => Promise<void>;
-  onDelete: () => Promise<void>;
+  onUpdate: (data: Partial<CreateEventDto>) => void;
+  onDelete: () => void;
 }
 
 export function EventDetailContent({
@@ -51,7 +51,7 @@ export function EventDetailContent({
       if (payload.eventDate)
         payload.eventDate = new Date(payload.eventDate).toISOString();
 
-      await onUpdate(event.id, payload);
+      await onUpdate(payload);
 
       router.push('/');
     } else {
