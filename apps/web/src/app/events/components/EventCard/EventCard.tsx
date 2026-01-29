@@ -11,14 +11,27 @@ interface Props {
 export const EventCard = ({ event }: Props) => {
   return (
     <Link href={`/events/${event.id}`} style={{ textDecoration: 'none' }}>
-      <Card variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Card
+        variant="outlined"
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
         <CardContent>
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={2}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="flex-start"
+            mb={2}
+          >
             <Typography variant="h6" component="div" fontWeight="bold">
               {event.title}
             </Typography>
 
-            <Chip label={event.category} size="small" color="primary" variant="outlined" />
+            <Chip
+              label={event.category}
+              size="small"
+              color="primary"
+              variant="outlined"
+            />
           </Stack>
 
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>

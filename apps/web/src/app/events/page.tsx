@@ -1,15 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { EventList } from './components/EventList';
 import { EventsHeader } from './components/EventsHeader';
 import { EventsFooter } from './components/EventsFooter';
 import { useEvents } from '@/services/events';
 import { useDebounce } from '@/hooks/useDebounce';
 import { EventCategory, EventSort } from '@org/models';
 import { sortEvents } from '@/utils/events';
-
-const EVENTS_LIMIT = 10;
+import { EventList } from './components/EventList/EventList';
 
 export default function EventsPage() {
   const [categories, setCategories] = useState<EventCategory[]>([]);
@@ -19,12 +17,7 @@ export default function EventsPage() {
 
   const debouncedSearch = useDebounce(searchQuery, 400);
 
-  const { data: events, isLoading } = useEvents(
-    page,
-    EVENTS_LIMIT,
-    debouncedSearch,
-    categories
-  );
+  const { data: events } = useEvents(page, debouncedSearch, categories);
 
   const sortedEvents = useMemo(() => {
     if (!events?.data) return [];
@@ -42,13 +35,8 @@ export default function EventsPage() {
     setPage(1);
   };
 
-  const handleSortChange = (val: EventSort) => {
-    setSort(val);
-  };
-
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
+  const handleSortChange = (val: EventSort) => setSort(val);
+  const handlePageChange = (newPage: number) => setPage(newPage);
 
   return (
     <div className="events">
@@ -62,13 +50,12 @@ export default function EventsPage() {
         total={events?.total}
       />
 
-      <EventList events={sortedEvents} isLoading={isLoading} />
+      <EventList events={sortedEvents} />
 
       <EventsFooter
         page={page}
         onPageChange={handlePageChange}
         total={events?.total ?? 0}
-        limit={EVENTS_LIMIT}
       />
     </div>
   );

@@ -1,17 +1,17 @@
 'use client';
 
+import { EVENTS_LIMIT } from '@/services/events';
 import { Box, Pagination } from '@mui/material';
 import React, { ChangeEvent } from 'react';
 
 interface Props {
   total: number;
   page: number;
-  limit: number;
   onPageChange: (newPage: number) => void;
 }
 
-export const EventsFooter = ({ total, page, limit, onPageChange }: Props) => {
-  const pageCount = Math.ceil(total / limit);
+export const EventsFooter = ({ total, page, onPageChange }: Props) => {
+  const pageCount = Math.ceil(total / EVENTS_LIMIT);
 
   if (pageCount <= 1) return null;
 

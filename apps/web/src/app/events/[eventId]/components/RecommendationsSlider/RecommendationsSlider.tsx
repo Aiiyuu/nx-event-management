@@ -1,10 +1,12 @@
-'use client';
-
-import { Box, Card, CardContent, Typography, Chip } from '@mui/material';
-import Link from 'next/link';
+import { Box } from '@mui/material';
 import { Event } from '@org/models';
+import { EventCard } from '@/app/events/components/EventCard';
 
-export function RecommendationsSlider({ recommendations }: { recommendations: Event[] }) {
+export function RecommendationsSlider({
+  recommendations,
+}: {
+  recommendations: Event[];
+}) {
   return (
     <Box
       sx={{
@@ -13,6 +15,7 @@ export function RecommendationsSlider({ recommendations }: { recommendations: Ev
         overflowX: 'auto',
         pb: 2,
         px: 1,
+        flexWrap: 'nowrap',
         '&::-webkit-scrollbar': { height: '8px' },
         '&::-webkit-scrollbar-thumb': {
           backgroundColor: '#ccc',
@@ -21,39 +24,9 @@ export function RecommendationsSlider({ recommendations }: { recommendations: Ev
       }}
     >
       {recommendations.map((item) => (
-        <Link href={`/events/${item.id}`} key={item.id} style={{ textDecoration: 'none' }}>
-          <Card
-            sx={{
-              minWidth: 280,
-              maxWidth: 280,
-              height: '100%',
-              transition: 'transform 0.2s',
-              '&:hover': { transform: 'translateY(-4px)', boxShadow: 4 },
-            }}
-          >
-            <CardContent>
-              <Chip
-                label={item.category}
-                size="small"
-                color="primary"
-                variant="outlined"
-                sx={{ mb: 1 }}
-              />
-
-              <Typography variant="h6" noWrap sx={{ fontWeight: 'bold' }}>
-                {item.title}
-              </Typography>
-
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                {new Date(item.eventDate).toLocaleDateString()}
-              </Typography>
-
-              <Typography variant="body2" color="text.primary" noWrap sx={{ mt: 0.5 }}>
-                📍 {item.location}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Link>
+        <Box key={item.id} sx={{ flex: '0 0 340px' }}>
+          <EventCard event={item} />
+        </Box>
       ))}
     </Box>
   );
