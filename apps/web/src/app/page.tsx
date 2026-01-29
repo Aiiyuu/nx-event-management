@@ -4,6 +4,8 @@ import { HydrationBoundary } from '@tanstack/react-query';
 import { eventsQueryFn, eventsQueryKey } from '@/services/events';
 import { Metadata } from 'next';
 
+export const revalidate = 60;
+
 export default async function Home() {
   const queryClient = new QueryClient();
 
@@ -21,7 +23,7 @@ export default async function Home() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const events = await eventsQueryFn(1, '', []);
-  
+
   if (!events || events.data.length === 0) {
     return {
       title: 'No events found',
